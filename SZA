@@ -1,0 +1,63 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/ImamGV/Bacon-Library/refs/heads/main/bacon.txt"))()
+local Tabs = {
+Main = Library:CreateWindow("Main"),
+}
+Library:CreateToggle(Tabs.Main, "Instance Kill", false, function(v)
+_G.InstanceKill = v
+while _G.InstanceKill do
+for _,v in ipairs(workspace.Zombies_Local:GetChildren()) do
+local args = {
+    [1] = tonumber(string.match(v.Name, "%d+$")),
+    [2] = math.huge
+}
+
+game:GetService("ReplicatedStorage").ZombieRemotes.ZombieDamage:FireServer(unpack(args))
+end
+wait(0.3)
+end
+end)
+Library:CreateToggle(Tabs.Main, "Auto Void Shard", false, function(v)
+_G.AutoVoidShard = v
+end)
+Library:CreateToggle(Tabs.Main, "Auto Skip", false, function(v)
+_G.AutoSkip = v
+end)
+
+game:GetService("RunService").Stepped:Connect(function()
+for _,v in ipairs(game:GetService("Workspace").VoidShards:GetChildren()) do
+if _G.AutoVoidShard and v.Name == "VoidShardPart" then
+v.CFrame = game.Players.LocalPlayer.Character.Head.CFrame
+end
+end
+if _G.AutoSkip then
+game:GetService("ReplicatedStorage"):WaitForChild("WaveRemotes"):WaitForChild("SkipVote"):FireServer(true)
+end
+end)
+for _,v in ipairs(game.CoreGui:GetDescendants()) do
+if v:IsA("Frame") and v.Name == "TopBar" then
+v.Size = UDim2.new(0,240,0,50)
+v.TopLabel.TextSize = "20"
+v.TopLabel.Size = UDim2.new(0,240,0,50)
+v.BackgroundColor3 = Color3.new()
+v.Container.BackgroundColor3 = Color3.new(0.1,0.1,0.1)
+local LOL1 = Instance.new("UIStroke", v)
+LOL1.Color = Color3.new(1)
+local LOL2 = Instance.new("UIStroke", v.Container)
+LOL2.Color = Color3.new(1)
+local LOL3 = Instance.new("UIStroke", v.Container:FindFirstChild("xd_button_yey"))
+LOL3.Color = Color3.new(1)
+end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
